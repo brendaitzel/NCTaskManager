@@ -7,7 +7,9 @@ public class TaskImpl implements Task {
    int start;
    int end;
    int interval;
+
    int current;
+
 
     @Override
     public String getTitle() {
@@ -104,6 +106,7 @@ public class TaskImpl implements Task {
 
     }
 
+
     @Override
     public int nextTimeAfter(int current) {
     int  i;
@@ -124,5 +127,6 @@ public class TaskImpl implements Task {
                 return -1;
 
     }
+
 
 }
