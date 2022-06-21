@@ -31,12 +31,21 @@ public class TaskTest {
        assertEquals(2, task.getRepeatInterval());
 
    }
-   //@Test
-   /* public void activeTest(){
+  @Test
+    public void nextTimeAfterTest(){
        Task task = new TaskImpl();
-       task.setActive(true);
-       assertTrue(true, task.isActive());
+       task.setTime(10);
+       //task.nextTimeAfter(6)
+       assertEquals(-1, task.nextTimeAfter(11));
 
-   }
-*/
+
+  }
+
+  @Test
+    public void nextTimeAfterTest2(){
+       Task task = new TaskImpl();
+       task.setActive(false);
+       task.setTime(5,20, 4);
+       assertEquals(-1, task.nextTimeAfter(6));
+  }
 }

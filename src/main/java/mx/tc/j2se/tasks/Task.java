@@ -15,4 +15,6 @@ public interface Task {
     public void taskImpl();
     public void taskImpl(String title, int time);
     public void taskImpl(String title, int start, int end, int interval);
+
+    int nextTimeAfter(int current);
 }
