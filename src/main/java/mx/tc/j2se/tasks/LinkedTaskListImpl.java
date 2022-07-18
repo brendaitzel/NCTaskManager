@@ -1,16 +1,16 @@
 package mx.tc.j2se.tasks;
 
-public class LinkedTaskListImpl implements LinkedTaskList {
+import java.util.Iterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+public class LinkedTaskListImpl extends AbstractTaskList {
     int count;
     private Nodo nstart, end;
 
     Nodo nnew = new Nodo();
     Task task;
 
-    public void LinkedTaskListImpl() {
-        nstart = null;
-        count = 0;
-    }
 
     public class Nodo {
         Task task;
@@ -103,8 +103,8 @@ public class LinkedTaskListImpl implements LinkedTaskList {
         }
     }
 
-    @Override
-    public LinkedTaskList incoming(int from, int to) {
+   /* @Override
+    public LinkedTaskList incomingLinked (int from, int to) {
         if (from <0 | to<0 | from==to){
             throw new IllegalArgumentException("The number is negative");
         }
@@ -139,6 +139,97 @@ public class LinkedTaskListImpl implements LinkedTaskList {
             }
         }
         return linkedList;
-    }
+    }*/
     public LinkedTaskListImpl(){};
+
+    @Override
+    public Iterator<Task> iterator() {
+        Iterator<Task> it2 = new LinkedTaskIterator();
+        return it2;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        int c=0;
+        if (o==null){
+            return false;
+        }else if(o instanceof AbstractTaskList){
+            LinkedTaskListImpl linkedcomp = (LinkedTaskListImpl) o;
+            if(this.size()== linkedcomp.size()){
+                for(int a=0; a< linkedcomp.size();a++){
+                    if(this.getTask(a).equals(linkedcomp.getTask(a))){
+                        c=c+1;
+                    }
+                }
+                if (c==linkedcomp.size()){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int Lcode=0;
+        int i=1;
+        Nodo h=nstart;
+        while(h!=null){
+            Lcode+=(h.getTask().hashCode()*i);
+            h=h.getNext();
+            i=i+1;
+        }
+        return Lcode;
+    }
+
+    @Override
+    public LinkedTaskListImpl cloneLinked() {
+        LinkedTaskListImpl clonL = new LinkedTaskListImpl();
+        Nodo cl=nstart;
+        while (cl!=null){
+            clonL.add(cl.getTask());
+            cl=cl.getNext();
+        }
+
+        return clonL;
+    }
+
+    @Override
+    public ArrayTaskListImpl cloneArray() { //We won´t use this method here!
+        return null;
+    }//I won't use this method here!
+
+    @Override
+    public Stream<Task> getStream() {
+        Iterator<Task> iterLinked = new LinkedTaskIterator();
+        if (iterLinked.hasNext()==false){
+            throw new NullPointerException("You don't have any task");
+        }
+        Iterable<Task> streamiterLinked = () ->iterLinked;
+        return StreamSupport.stream(streamiterLinked.spliterator(),false);
+    }
+
+    protected  class LinkedTaskIterator implements Iterator<Task>{
+        Nodo iter=nstart;
+        Task nextTask;
+
+        @Override
+        public boolean hasNext() {
+
+            if (iter != null){
+                return true;
+            } else
+
+            return false;
+        }
+
+        @Override
+        public Task next() {
+            nextTask=iter.getTask();
+            iter=iter.getNext();
+            return nextTask;
+        }
+    }
+
 }

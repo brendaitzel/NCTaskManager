@@ -14,13 +14,14 @@ public class ArrayTaskListImpl implements ArrayTaskList {
     Task[] arrayTask8 = new Task[160];
     Task[] arrayTask9 = new Task[180];
     Task[] arrayTask10 = new Task[200];
-    Task[] arrayTask = new Task[50];
+
 
     //Task task = new TaskImpl();
     //Task task2 = new TaskImpl();
 
     @Override
     public void add(Task task) {
+
         if (count < 21) {
             arrayTask1[i] = task;
         } else if (count < 41) {
@@ -53,6 +54,7 @@ public class ArrayTaskListImpl implements ArrayTaskList {
             arrayTask10[i] = task;
         }
         i++;
+
         count++;
     }
 
@@ -178,7 +180,9 @@ public class ArrayTaskListImpl implements ArrayTaskList {
 
     @Override
     public Task getTask(int index) {
-
+    if(index>count-2){
+        throw new IndexOutOfBoundsException("This index is not available");
+    }
         if (index < 21) {
             return arrayTask1[index];
         } else if (index < 41) {
